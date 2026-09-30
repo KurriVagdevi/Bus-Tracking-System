@@ -315,7 +315,7 @@ class HomeScreen extends StatelessWidget {
 
             const SizedBox(height: 15),
 
-            // Bus Stops
+            // Bus Stops 📍
             Card(
               elevation: 3,
               child: ListTile(
