@@ -487,7 +487,7 @@ class ScheduleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bus Schedule'),
+        title: const Text(''Bus Schedule 📅''),
         centerTitle: true,
       ),
 
