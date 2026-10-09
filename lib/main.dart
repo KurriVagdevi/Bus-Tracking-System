@@ -171,7 +171,7 @@ class LoginScreen extends StatelessWidget {
                   );
                 },
                 child: const Text(
-                  'Login',
+                  ''Login 🔐'',
                   style: TextStyle(
                     fontSize: 18,
                   ),
