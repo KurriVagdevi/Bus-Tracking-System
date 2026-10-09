@@ -1,17 +1,29 @@
-# flutter_application_1
+# Bus Tracking System
 
-A new Flutter project.
+## Project Description
+The Bus Tracking System is a Flutter application designed to help users view bus information, schedules, and bus stop details through a simple user interface.
 
-## Getting Started
+## Features
+- Welcome screen
+- Login screen with basic input validation
+- Home screen with navigation options
+- Bus tracking screen with sample bus information
+- Bus schedule screen
+- Bus stops screen
 
-This project is a starting point for a Flutter application.
+## Technologies Used
+- Flutter
+- Dart
+- Visual Studio Code
 
-A few resources to get you started if this is your first Flutter project:
+## How to Run the Project
+1. Open the project in Visual Studio Code.
+2. Open the terminal.
+3. Run `flutter pub get`.
+4. Run `flutter run -d chrome` to launch the application in Chrome.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Screenshots
+Screenshots of the application and source code are included in the project screenshots folder.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Note
+The bus information displayed in this project is sample data. Live GPS tracking is not connected.

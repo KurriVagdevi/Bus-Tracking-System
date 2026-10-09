@@ -17,7 +17,15 @@ class BusTrackingApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         useMaterial3: true,
       ),
-      home: const WelcomeScreen(),
+     initialRoute: '/',
+routes: {
+  '/': (context) => const WelcomeScreen(),
+  '/login': (context) => const LoginScreen(),
+  '/home': (context) => const HomeScreen(),
+  '/track': (context) => const TrackBusScreen(),
+  '/schedule': (context) => const ScheduleScreen(),
+  '/stops': (context) => const BusStopsScreen(),
+},
     );
   }
 }
@@ -29,9 +37,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bus Tracking System'),
-      ),
+      appBar: AppBar(title: const Text('Bus Tracking System')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -95,7 +101,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-// LOGIN SCREEN WITH VALIDATION
+// LOGIN SCREEN
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -106,7 +112,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController =
       TextEditingController();
-
   final TextEditingController passwordController =
       TextEditingController();
 
@@ -150,9 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
+      appBar: AppBar(title: const Text('Login')),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),
@@ -189,9 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   errorMessage!,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.red,
-                  ),
+                  style: const TextStyle(color: Colors.red),
                 ),
               const SizedBox(height: 20),
               SizedBox(
@@ -216,91 +217,92 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bus Tracking - Home'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: const [
-                  Icon(
-                    Icons.directions_bus,
-                    size: 60,
-                    color: Colors.blue,
+      appBar: AppBar(title: const Text('Bus Tracking - Home')),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth >= 600;
+
+          return ListView(
+            padding: EdgeInsets.all(isWide ? 24 : 16),
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: const [
+                      Icon(
+                        Icons.directions_bus,
+                        size: 60,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Welcome!',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text('Choose an option below'),
+                    ],
                   ),
-                  SizedBox(height: 10),
-                  Text(
-                    'Welcome!',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Text('Choose an option below'),
-                ],
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 10),
-          ListTile(
-            leading: const Icon(
-              Icons.location_searching,
-              color: Colors.blue,
-            ),
-            title: const Text('Track Bus'),
-            subtitle: const Text('View bus tracking information'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.push(
+              const SizedBox(height: 10),
+              _homeOption(
                 context,
-                MaterialPageRoute<void>(
-                  builder: (context) => const TrackBusScreen(),
-                ),
-              );
-            },
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(
-              Icons.schedule,
-              color: Colors.orange,
-            ),
-            title: const Text('Bus Schedule'),
-            subtitle: const Text('View bus timings and routes'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.push(
+                icon: Icons.location_searching,
+                color: Colors.blue,
+                title: 'Track Bus',
+                subtitle: 'View bus tracking information',
+                screen: const TrackBusScreen(),
+              ),
+              const Divider(),
+              _homeOption(
                 context,
-                MaterialPageRoute<void>(
-                  builder: (context) => const ScheduleScreen(),
-                ),
-              );
-            },
-          ),
-          const Divider(),
-          ListTile(
-            leading: const Icon(
-              Icons.location_on,
-              color: Colors.red,
-            ),
-            title: const Text('Bus Stops'),
-            subtitle: const Text('View available bus stops'),
-            trailing: const Icon(Icons.arrow_forward_ios),
-            onTap: () {
-              Navigator.push(
+                icon: Icons.schedule,
+                color: Colors.orange,
+                title: 'Bus Schedule',
+                subtitle: 'View bus timings and routes',
+                screen: const ScheduleScreen(),
+              ),
+              const Divider(),
+              _homeOption(
                 context,
-                MaterialPageRoute<void>(
-                  builder: (context) => const BusStopsScreen(),
-                ),
-              );
-            },
-          ),
-        ],
+                icon: Icons.location_on,
+                color: Colors.red,
+                title: 'Bus Stops',
+                subtitle: 'View available bus stops',
+                screen: const BusStopsScreen(),
+              ),
+            ],
+          );
+        },
       ),
+    );
+  }
+
+  Widget _homeOption(
+    BuildContext context, {
+    required IconData icon,
+    required Color color,
+    required String title,
+    required String subtitle,
+    required Widget screen,
+  }) {
+    return ListTile(
+      leading: Icon(icon, color: color),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: const Icon(Icons.arrow_forward_ios),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (context) => screen,
+          ),
+        );
+      },
     );
   }
 }
@@ -312,44 +314,49 @@ class TrackBusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Track Bus'),
-      ),
-      body: Center(
-        child: Card(
-          margin: const EdgeInsets.all(24),
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(
-                  Icons.directions_bus,
-                  size: 80,
-                  color: Colors.blue,
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Bus Number: 101',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
+      appBar: AppBar(title: const Text('Track Bus')),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 500),
+              child: Card(
+                margin: const EdgeInsets.all(24),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Icon(
+                        Icons.directions_bus,
+                        size: 80,
+                        color: Colors.blue,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        'Bus Number: 101',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text('Route: Uppal - Ameerpet'),
+                      SizedBox(height: 10),
+                      Text('Status: On Route'),
+                      SizedBox(height: 16),
+                      Text(
+                        'Live GPS tracking is not connected yet.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 10),
-                Text('Route: Uppal - Ameerpet'),
-                SizedBox(height: 10),
-                Text('Status: On Route'),
-                SizedBox(height: 16),
-                Text(
-                  'Live GPS tracking is not connected yet.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.red),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -362,46 +369,50 @@ class ScheduleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bus Schedule'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(12),
-        children: const [
-          Card(
-            child: ListTile(
-              leading: Icon(
-                Icons.directions_bus,
-                color: Colors.blue,
+      appBar: AppBar(title: const Text('Bus Schedule')),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth >= 600;
+
+          return ListView(
+            padding: EdgeInsets.all(isWide ? 24 : 12),
+            children: const [
+              Card(
+                child: ListTile(
+                  leading: Icon(
+                    Icons.directions_bus,
+                    color: Colors.blue,
+                  ),
+                  title: Text('Bus 101'),
+                  subtitle: Text('Uppal - Ameerpet'),
+                  trailing: Text('8:00 AM'),
+                ),
               ),
-              title: Text('Bus 101'),
-              subtitle: Text('Uppal - Ameerpet'),
-              trailing: Text('8:00 AM'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(
-                Icons.directions_bus,
-                color: Colors.blue,
+              Card(
+                child: ListTile(
+                  leading: Icon(
+                    Icons.directions_bus,
+                    color: Colors.blue,
+                  ),
+                  title: Text('Bus 102'),
+                  subtitle: Text('Boduppal - Secunderabad'),
+                  trailing: Text('9:00 AM'),
+                ),
               ),
-              title: Text('Bus 102'),
-              subtitle: Text('Boduppal - Secunderabad'),
-              trailing: Text('9:00 AM'),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: Icon(
-                Icons.directions_bus,
-                color: Colors.blue,
+              Card(
+                child: ListTile(
+                  leading: Icon(
+                    Icons.directions_bus,
+                    color: Colors.blue,
+                  ),
+                  title: Text('Bus 103'),
+                  subtitle: Text('Nagole - Hyderabad'),
+                  trailing: Text('10:00 AM'),
+                ),
               ),
-              title: Text('Bus 103'),
-              subtitle: Text('Nagole - Hyderabad'),
-              trailing: Text('10:00 AM'),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }
@@ -421,25 +432,27 @@ class BusStopsScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bus Stops'),
-      ),
-      body: ListView.builder(
-        itemCount: stops.length,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 6,
-            ),
-            child: ListTile(
-              leading: const Icon(
-                Icons.location_on,
-                color: Colors.red,
-              ),
-              title: Text(stops[index]),
-              trailing: const Icon(Icons.place),
-            ),
+      appBar: AppBar(title: const Text('Bus Stops')),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return ListView.builder(
+            itemCount: stops.length,
+            itemBuilder: (context, index) {
+              return Card(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                child: ListTile(
+                  leading: const Icon(
+                    Icons.location_on,
+                    color: Colors.red,
+                  ),
+                  title: Text(stops[index]),
+                  trailing: const Icon(Icons.place),
+                ),
+              );
+            },
           );
         },
       ),
