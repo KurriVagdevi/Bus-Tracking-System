@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,79 +11,194 @@ class BusTrackingApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Bus Tracking System',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
+        useMaterial3: true,
       ),
       home: const WelcomeScreen(),
     );
   }
 }
 
-// ==================== WELCOME SCREEN ====================
-
+// WELCOME SCREEN
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bus Tracking System'),
+      ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(25),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    width: 140,
+                    height: 140,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade50,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                  const Icon(
+                    Icons.directions_bus,
+                    size: 100,
+                    color: Colors.blue,
+                  ),
+                  const Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Icon(
+                      Icons.location_on,
+                      size: 40,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                'Welcome to Bus Tracking System',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 30),
+              ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                      builder: (context) => const LoginScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.login),
+                label: const Text('Get Started'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// LOGIN SCREEN WITH VALIDATION
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController =
+      TextEditingController();
+
+  final TextEditingController passwordController =
+      TextEditingController();
+
+  String? errorMessage;
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void login() {
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    String? message;
+
+    if (email.isEmpty || password.isEmpty) {
+      message = 'Please enter email and password.';
+    } else if (!email.contains('@') || !email.contains('.')) {
+      message = 'Please enter a valid email address.';
+    } else if (password.length < 6) {
+      message = 'Password must be at least 6 characters.';
+    }
+
+    setState(() {
+      errorMessage = message;
+    });
+
+    if (message != null) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => const HomeScreen(),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                Icons.directions_bus,
-                size: 110,
+                Icons.account_circle,
+                size: 80,
                 color: Colors.blue,
               ),
-
               const SizedBox(height: 25),
-
-              const Text(
-                'Welcome to',
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.black87,
+              TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(),
                 ),
               ),
-
-              const SizedBox(height: 10),
-
-              const Text(
-                'Bus Tracking System',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+              const SizedBox(height: 20),
+              TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  prefixIcon: Icon(Icons.lock),
+                  border: OutlineInputBorder(),
                 ),
               ),
-
-              const SizedBox(height: 45),
-
+              const SizedBox(height: 16),
+              if (errorMessage != null)
+                Text(
+                  errorMessage!,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
-                height: 55,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
+                  onPressed: login,
+                  child: const Text('Login'),
                 ),
               ),
             ],
@@ -93,109 +209,7 @@ class WelcomeScreen extends StatelessWidget {
   }
 }
 
-// ==================== LOGIN SCREEN ====================
-
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-      ),
-
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(25),
-
-        child: Column(
-          children: [
-            const SizedBox(height: 50),
-
-            const Icon(
-              Icons.account_circle,
-              size: 100,
-              color: Colors.blue,
-            ),
-
-            const SizedBox(height: 20),
-
-            const Text(
-              'Welcome Back!',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 35),
-
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                prefixIcon: const Icon(Icons.email),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                prefixIcon: const Icon(Icons.lock),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 30),
-
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const 'Home 🏠'Screen(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  ''Login 🔐'',
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            TextButton(
-              onPressed: () {},
-              child: const Text(
-                'Forgot Password?',
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ==================== HOME SCREEN ====================
-
+// HOME SCREEN
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -203,192 +217,95 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bus Tracking System'),
-        centerTitle: true,
+        title: const Text('Bus Tracking - Home'),
       ),
-
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Hello! 👋',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
-            const Text(
-              'What would you like to do?',
-              style: TextStyle(
-                fontSize: 17,
-                color: Colors.grey,
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            // Track Bus
-            Card(
-              elevation: 3,
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(15),
-
-                leading: const Icon(
-                  Icons.directions_bus,
-                  size: 45,
-                  color: Colors.blue,
-                ),
-
-                title: const Text(
-                  'Track Bus',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                children: const [
+                  Icon(
+                    Icons.directions_bus,
+                    size: 60,
+                    color: Colors.blue,
                   ),
-                ),
-
-                subtitle: const Text(
-                  'Track your bus location',
-                ),
-
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Track Bus 🚌Screen(),
+                  SizedBox(height: 10),
+                  Text(
+                    'Welcome!',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
                     ),
-                  );
-                },
-              ),
-            ),
-
-            const SizedBox(height: 15),
-
-            // Bus Schedule 📅
-            Card(
-              elevation: 3,
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(15),
-
-                leading: const Icon(
-                  Icons.schedule,
-                  size: 45,
-                  color: Colors.blue,
-                ),
-
-                title: const Text(
-                  'Bus Schedule',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
                   ),
-                ),
-
-                subtitle: const Text(
-                  'Check bus timings',
-                ),
-
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ScheduleScreen(),
-                    ),
-                  );
-                },
+                  Text('Choose an option below'),
+                ],
               ),
             ),
-
-            const SizedBox(height: 15),
-
-            // 'Bus Stops 📍'
-            Card(
-              elevation: 3,
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(15),
-
-                leading: const Icon(
-                  Icons.location_on,
-                  size: 45,
-                  color: Colors.blue,
-                ),
-
-                title: const Text(
-                  'Bus Stops',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                subtitle: const Text(
-                  'Find nearby bus stops',
-                ),
-
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-
-                onTap: () {},
-              ),
+          ),
+          const SizedBox(height: 10),
+          ListTile(
+            leading: const Icon(
+              Icons.location_searching,
+              color: Colors.blue,
             ),
-
-            const SizedBox(height: 15),
-
-            // Profile
-            Card(
-              elevation: 3,
-              child: ListTile(
-                contentPadding: const EdgeInsets.all(15),
-
-                leading: const Icon(
-                  Icons.person,
-                  size: 45,
-                  color: Colors.blue,
+            title: const Text('Track Bus'),
+            subtitle: const Text('View bus tracking information'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) => const TrackBusScreen(),
                 ),
-
-                title: const Text(
-                  'Profile',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                subtitle: const Text(
-                  'View your profile',
-                ),
-
-                trailing: const Icon(
-                  Icons.arrow_forward_ios,
-                ),
-
-                onTap: () {},
-              ),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(
+              Icons.schedule,
+              color: Colors.orange,
             ),
-          ],
-        ),
+            title: const Text('Bus Schedule'),
+            subtitle: const Text('View bus timings and routes'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) => const ScheduleScreen(),
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(
+              Icons.location_on,
+              color: Colors.red,
+            ),
+            title: const Text('Bus Stops'),
+            subtitle: const Text('View available bus stops'),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (context) => const BusStopsScreen(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
 }
 
-// ==================== 'Track Bus 🚌' SCREEN ====================
-
+// TRACK BUS SCREEN
 class TrackBusScreen extends StatelessWidget {
   const TrackBusScreen({super.key});
 
@@ -397,89 +314,48 @@ class TrackBusScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Track Bus'),
-        centerTitle: true,
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-
-        child: Column(
-          children: [
-            Container(
-              width: double.infinity,
-              height: 300,
-              decoration: BoxDecoration(
-                color: Colors.blue.shade50,
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(
-                  color: Colors.blue,
-                ),
-              ),
-
-              child: const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.location_on,
-                    size: 80,
-                    color: Colors.red,
-                  ),
-
-                  SizedBox(height: 15),
-
-                  Text(
-                    'Live Bus Location',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  SizedBox(height: 10),
-
-                  Text(
-                    'Map will be displayed here',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            Card(
-              child: ListTile(
-                leading: const Icon(
+      body: Center(
+        child: Card(
+          margin: const EdgeInsets.all(24),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(
                   Icons.directions_bus,
+                  size: 80,
                   color: Colors.blue,
                 ),
-
-                title: const Text(
+                SizedBox(height: 16),
+                Text(
                   'Bus Number: 101',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-
-                subtitle: const Text(
-                  'Status: On Route',
+                SizedBox(height: 10),
+                Text('Route: Uppal - Ameerpet'),
+                SizedBox(height: 10),
+                Text('Status: On Route'),
+                SizedBox(height: 16),
+                Text(
+                  'Live GPS tracking is not connected yet.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.red),
                 ),
-
-                trailing: const Icon(
-                  Icons.circle,
-                  color: Colors.green,
-                  size: 15,
-                ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-// ==================== SCHEDULE SCREEN ====================
-
+// BUS SCHEDULE SCREEN
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
 
@@ -487,67 +363,85 @@ class ScheduleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(''Bus Schedule 📅''),
-        centerTitle: true,
+        title: const Text('Bus Schedule'),
       ),
-
       body: ListView(
-        padding: const EdgeInsets.all(20),
-
-        children: [
-          const Text(
-            'Today\'s Bus Schedule',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+        padding: const EdgeInsets.all(12),
+        children: const [
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.directions_bus,
+                color: Colors.blue,
+              ),
+              title: Text('Bus 101'),
+              subtitle: Text('Uppal - Ameerpet'),
+              trailing: Text('8:00 AM'),
             ),
           ),
-
-          const SizedBox(height: 20),
-
-          scheduleCard('101', '8:00 AM', 'Uppal → Ameerpet'),
-
-          scheduleCard('102', '9:00 AM', 'Boduppal → Secunderabad'),
-
-          scheduleCard('103', '10:30 AM', 'Uppal → Mehdipatnam'),
-
-          scheduleCard('104', '12:00 PM', 'Nagole → Ameerpet'),
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.directions_bus,
+                color: Colors.blue,
+              ),
+              title: Text('Bus 102'),
+              subtitle: Text('Boduppal - Secunderabad'),
+              trailing: Text('9:00 AM'),
+            ),
+          ),
+          Card(
+            child: ListTile(
+              leading: Icon(
+                Icons.directions_bus,
+                color: Colors.blue,
+              ),
+              title: Text('Bus 103'),
+              subtitle: Text('Nagole - Hyderabad'),
+              trailing: Text('10:00 AM'),
+            ),
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget scheduleCard(
-    String busNumber,
-    String time,
-    String route,
-  ) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 15),
+// BUS STOPS SCREEN
+class BusStopsScreen extends StatelessWidget {
+  const BusStopsScreen({super.key});
 
-      child: ListTile(
-        leading: const Icon(
-          Icons.directions_bus,
-          size: 40,
-          color: Colors.blue,
-        ),
+  @override
+  Widget build(BuildContext context) {
+    const stops = [
+      'Uppal',
+      'Nagole',
+      'Ameerpet',
+      'Secunderabad',
+    ];
 
-        title: Text(
-          'Bus $busNumber',
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        subtitle: Text(route),
-
-        trailing: Text(
-          time,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Bus Stops'),
+      ),
+      body: ListView.builder(
+        itemCount: stops.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.symmetric(
+              horizontal: 12,
+              vertical: 6,
+            ),
+            child: ListTile(
+              leading: const Icon(
+                Icons.location_on,
+                color: Colors.red,
+              ),
+              title: Text(stops[index]),
+              trailing: const Icon(Icons.place),
+            ),
+          );
+        },
       ),
     );
   }
