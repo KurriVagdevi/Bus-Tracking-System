@@ -1,21 +1,28 @@
 # 🚌 Bus Tracking System
 
+A Flutter-based bus information application built to demonstrate UI design, navigation, responsive layouts, and bus schedule presentation.
+
 ## 📌 About the Project
 
-The **Bus Tracking System** is a Flutter-based application designed to help users access bus tracking information, bus schedules, and bus stop details through a simple and user-friendly interface.
+The Bus Tracking System provides a simple interface for exploring bus information, routes, schedules, and bus stops.
 
-The application includes a welcome screen, login screen, home screen, bus tracking screen, and bus schedule screen.
+The project includes application screens and Flutter lab experiments that demonstrate core Flutter and Dart concepts.
 
 ## ✨ Features
 
-- **Welcome Screen:** Introduction to the Bus Tracking System.
-- **Login Screen:** Email and password input interface.
-- **Home Screen:** Easy navigation to the available features.
-- **Track Bus:** Displays bus information and route status.
-- **Bus Schedule:** Shows bus timings and routes.
-- **Bus Stops:** Screenshots and interface documentation for the project.
+- 🏠 Welcome and Home screens
+- 🔐 Login screen UI
+- 🚌 Bus tracking screen UI
+- 🕒 Bus schedules and route information
+- 📍 Bus stop interface
+- 📱 Responsive UI experiments
+- 🧭 Navigation and named routes
+- 🎨 Custom widgets and themes
+- ✨ Animation demonstrations
+- 🌐 REST API and data display experiments
+- 🧪 Unit testing and debugging exercises
 
-**Note:** Live GPS tracking and real-time bus locations are not connected yet.
+> **Note:** Live GPS tracking and real-time bus location services are not connected yet.
 
 ## 🛠️ Technologies Used
 
@@ -23,138 +30,81 @@ The application includes a welcome screen, login screen, home screen, bus tracki
 - Dart
 - Material Design
 - Visual Studio Code
+- Provider
+- HTTP
 
 ## 📸 Application Screenshots
 
-### 1. Home Screen — Desktop
+### Flutter Widgets Demo
 
-![Home Screen Desktop](lib/screenshots/home_desktop.png)
+![Flutter Widgets Demo](screenshots/widgets_demo.png)
 
-### 2. Home Screen — Laptop
+### Other Application Screenshots
 
-![Home Screen Laptop](lib/screenshots/home_laptop.png)
+The following screenshots are referenced in this project, if available:
 
-### 3. Home Screen — Phone
+- `lib/screenshots/home_desktop.png`
+- `lib/screenshots/home_laptop.png`
+- `lib/screenshots/home_phone.png`
 
-![Home Screen Phone](lib/screenshots/home_phone.png)
+## 📚 Flutter Lab Experiments
 
-## 💻 Code Screenshots
-
-### Main Dart Code
-
-![Main Dart Code](lib/screenshots/main_code.png)
-
-### Home Screen Code
-
-![Home Screen Code](lib/screenshots/home_code.png)
-
-### Login Screen Code
-
-![Login Screen Code](lib/screenshots/login_code.png)
-
-### Track Bus Screen Code
-
-![Track Bus Screen Code](lib/screenshots/track_bus_code.png)
-
-### Bus Schedule Screen Code
-
-![Bus Schedule Screen Code](lib/screenshots/schedule_code.png)
-
-### Bus Stops Screen Code
-
-![Bus Stops Screen Code](lib/screenshots/bus_stops_code.png)
+| Experiment | File | Run command |
+|---|---|---|
+| Dart Basics | `lib/bus_basics.dart` | `dart run lib/bus_basics.dart` |
+| Flutter Widgets | `lib/widgets_demo.dart` | `flutter run -t lib/widgets_demo.dart` |
+| Layouts | `lib/layouts_demo.dart` | `flutter run -t lib/layouts_demo.dart` |
+| Responsive UI | `lib/responsive_demo.dart` | `flutter run -t lib/responsive_demo.dart` |
+| Navigation | `lib/navigation_demo.dart` | `flutter run -t lib/navigation_demo.dart` |
+| Named Routes | `lib/named_routes_demo.dart` | `flutter run -t lib/named_routes_demo.dart` |
+| Stateful Widgets | `lib/state_widgets_demo.dart` | `flutter run -t lib/state_widgets_demo.dart` |
+| Provider | `lib/provider_demo.dart` | `flutter run -t lib/provider_demo.dart` |
+| Custom Widgets | `lib/custom_widgets_demo.dart` | `flutter run -t lib/custom_widgets_demo.dart` |
+| Themes | `lib/themes_demo.dart` | `flutter run -t lib/themes_demo.dart` |
+| Forms | `lib/form_demo.dart` | `flutter run -t lib/form_demo.dart` |
+| Validation | `lib/validation_demo.dart` | `flutter run -t lib/validation_demo.dart` |
+| Animations | `lib/animation_demo.dart` | `flutter run -t lib/animation_demo.dart` |
+| Fade and Slide | `lib/fade_slide_demo.dart` | `flutter run -t lib/fade_slide_demo.dart` |
+| REST API | `lib/api_fetch_demo.dart` | `flutter run -t lib/api_fetch_demo.dart` |
+| Display API Data | `lib/api_display_demo.dart` | `flutter run -t lib/api_display_demo.dart` |
+| Unit Testing | `test/bus_ui_test.dart` | `flutter test test/bus_ui_test.dart` |
+| Debugging | `lib/debugging_demo.dart` | `flutter run -t lib/debugging_demo.dart` |
 
 ## 🚀 How to Run the Project
 
-1. Install Flutter SDK.
-2. Clone or download this repository.
+1. Install the Flutter SDK.
+2. Clone this repository:
+
+   ```bash
+   git clone https://github.com/KurriVagdevi/Bus-Tracking-System.git
+   ```
+
 3. Open the project folder in Visual Studio Code.
-4. Run `flutter pub get`.
-5. Run `flutter run`.
+4. Install dependencies:
+
+   ```bash
+   flutter pub get
+   ```
+
+5. Run the main application:
+
+   ```bash
+   flutter run
+   ```
+
+To run the widgets demonstration separately:
+
+```bash
+flutter run -t lib/widgets_demo.dart
+```
 
 ## 🎯 Project Objective
 
-The objective of this project is to develop a simple bus information application using Flutter and demonstrate screen design, navigation, and bus schedule presentation.
+To demonstrate Flutter application development through UI design, widgets, layouts, navigation, responsive design, state management, animations, API integration exercises, and testing.
 
----
+## 👩‍💻 Project Information
 
-**Project:** Bus Tracking System  
-**Framework:** Flutter  
-**Language:** Dart
-
-## Flutter Lab Experiments - Bus Tracking System
-
-## Flutter Lab Experiments
-
-### 1(b) Dart Basics
-File: lib/bus_basics.dart
-Run: dart run lib/bus_basics.dart
-
-### 2(a) Flutter Widgets
-File: lib/widgets_demo.dart
-Run: flutter run -t lib/widgets_demo.dart
-
-### 2(b) Layouts
-File: lib/layouts_demo.dart
-Run: flutter run -t lib/layouts_demo.dart
-
-### 3(a) Responsive UI
-File: lib/responsive_demo.dart
-Run: flutter run -t lib/responsive_demo.dart
-
-### 4(a) Navigation
-File: lib/navigation_demo.dart
-Run: flutter run -t lib/navigation_demo.dart
-
-### 4(b) Named Routes
-File: lib/named_routes_demo.dart
-Run: flutter run -t lib/named_routes_demo.dart
-
-### 5(a) Stateful Widgets
-File: lib/state_widgets_demo.dart
-Run: flutter run -t lib/state_widgets_demo.dart
-
-### 5(b) Provider
-File: lib/provider_demo.dart
-Run: flutter run -t lib/provider_demo.dart
-
-### 6(a) Custom Widgets
-File: lib/custom_widgets_demo.dart
-Run: flutter run -t lib/custom_widgets_demo.dart
-
-### 6(b) Themes
-File: lib/themes_demo.dart
-Run: flutter run -t lib/themes_demo.dart
-
-### 7(a) Forms
-File: lib/form_demo.dart
-Run: flutter run -t lib/form_demo.dart
-
-### 7(b) Validation
-File: lib/validation_demo.dart
-Run: flutter run -t lib/validation_demo.dart
-
-### 8(a) Animations
-File: lib/animation_demo.dart
-Run: flutter run -t lib/animation_demo.dart
-
-### 8(b) Fade and Slide
-File: lib/fade_slide_demo.dart
-Run: flutter run -t lib/fade_slide_demo.dart
-
-### 9(a) REST API
-File: lib/api_fetch_demo.dart
-Run: flutter run -t lib/api_fetch_demo.dart
-
-### 9(b) Display API Data
-File: lib/api_display_demo.dart
-Run: flutter run -t lib/api_display_demo.dart
-
-### 10(a) Unit Testing
-Run: flutter test test/bus_ui_test.dart
-
-### 10(b) Debugging
-Run: flutter run -t lib/debugging_demo.dart
-
-Dependencies: provider, http
-
+- **Project:** Bus Tracking System
+- **Framework:** Flutter
+- **Language:** Dart
+- **Repository:** [GitHub](https://github.com/KurriVagdevi/Bus-Tracking-System)
